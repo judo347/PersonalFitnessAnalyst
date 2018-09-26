@@ -11,7 +11,8 @@ import java.util.ArrayList;
 public class Strava {
 
     /** Needed functionality:
-     *      - get all workouts of a specific sport. */
+     *      - get all workouts of a specific sport.
+     *      - Use GSON so handle json response. */
 
     /** Examples
      *  get 200 latest activities:
@@ -41,7 +42,7 @@ public class Strava {
     /** Takes a workout type
      * @param workoutType the type of workouts you want to get.
      * @return an arrayList with workout Objects */ //TODO THIS OBJECT SHOULD BE MADE //TODO Should have a version with no specific request type aka return all
-    public static ArrayList<> getActivitiesByType(WorkoutType workoutType, int numberOfWorkouts){
+    public static ArrayList<Object> getActivitiesByType(WorkoutType workoutType, int numberOfWorkouts){
 
         //Create URL that contains the requested information
         String urlString = "https://www.strava.com/api/v3/athlete/activities?per_page=" + numberOfWorkouts + "&access_token=" + accessToken;
@@ -50,8 +51,10 @@ public class Strava {
         StringBuilder pageContent = doHttpGetRequest(urlString);
 
         //Convert the stringBuilder to an arrayList of Workout objects
+        //TODO HERE!
+        System.out.println(pageContent.toString()); //TODO TEMP
 
-
+        return new ArrayList(); //TODO TEMP
     }
 
     /** Takes a URL and sends a HTTP GET request, then returns the response. */
@@ -61,12 +64,13 @@ public class Strava {
         try {
             URL url = new URL(requestedUrl); //MalformedURLException
             HttpURLConnection conn = (HttpURLConnection) url.openConnection(); //IOException
-            conn.setRequestMethod("GET  ");
+            conn.setRequestMethod("GET");
             BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String line;
 
             while ((line = rd.readLine()) != null) {
                 result.append(line);
+                //System.out.println(line); //TODO TEMP
             }
             rd.close();
         } catch (MalformedURLException e) {
